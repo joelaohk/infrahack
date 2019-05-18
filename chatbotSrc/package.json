@@ -1,0 +1,21 @@
+{
+  "name": "dllm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws": "0.0.3-2",
+    "aws-sdk": "^2.458.0",
+    "express": "^4.17.0",
+    "faye": "^1.2.4",
+    "https": "^1.0.0",
+    "node-telegram-bot-api": "^0.30.0",
+    "slimbot": "^0.8.7",
+    "util": "^0.12.0"
+  }
+}
