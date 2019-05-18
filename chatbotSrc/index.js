@@ -8,16 +8,243 @@ const https = require('https');
 const awsdydb = require('aws-sdk');
 const fs = require('fs');
 
-
+const threeCode = [
+    {
+      "code": "ABR",
+      "noCode": 1003006,
+      "name": "Abbey Road"
+    },
+    {
+      "code": "ALS",
+      "noCode": 1002003,
+      "name": "All Saints"
+    },
+    {
+      "code": "BAN",
+      "noCode": 1000013,
+      "name": "Bank"
+    },
+    {
+      "code": "BEC",
+      "noCode": 1002011,
+      "name": "Beckton"
+    },
+    {
+      "code": "BEP",
+      "noCode": 1002012,
+      "name": "Beckton Park"
+    },
+    {
+      "code": "BLA",
+      "noCode": 1002018,
+      "name": "Blackwall"
+    },
+    {
+      "code": "BOC",
+      "noCode": 1002019,
+      "name": "Bow Church"
+    },
+    {
+      "code": "CAT",
+      "noCode": 1000039,
+      "name": "Canning Town"
+    },
+    {
+      "code": "CAW",
+      "noCode": 1003008,
+      "name": "Canary Wharf"
+    },
+    {
+      "code": "CRO",
+      "noCode": 1002025,
+      "name": "Crossharbour"
+    },
+    {
+      "code": "CUH",
+      "noCode": 1001079,
+      "name": "Custom House"
+    },
+    {
+      "code": "CUS",
+      "noCode": 1002027,
+      "name": "Cutty Sark"
+    },
+    {
+      "code": "CYP",
+      "noCode": 1002028,
+      "name": "Cyprus"
+    },
+    {
+      "code": "DEB",
+      "noCode": 1002029,
+      "name": "Deptford Bridge"
+    },
+    {
+      "code": "DER",
+      "noCode": 1002030,
+      "name": "Devons Road"
+    },
+    {
+      "code": "EAI",
+      "noCode": 1002033,
+      "name": "East India"
+    },
+    {
+      "code": "ELR",
+      "noCode": 1002035,
+      "name": "Elverson Road"
+    },
+    {
+      "code": "GAR",
+      "noCode": 1002039,
+      "name": "Gallions Reach"
+    },
+    {
+      "code": "GRE",
+      "noCode": 1001123,
+      "name": "Greenwich"
+    },
+    {
+      "code": "HEQ",
+      "noCode": 1002046,
+      "name": "Heron Quays"
+    },
+    {
+      "code": "ISG",
+      "noCode": 1002048,
+      "name": "Island Gardens"
+    },
+    {
+      "code": "KGV",
+      "noCode": 1002009,
+      "name": "King George V"
+    },
+    {
+      "code": "LAP",
+      "noCode": 1002034,
+      "name": "Langdon Park"
+    },
+    {
+      "code": "LCA",
+      "noCode": 1002000,
+      "name": "London City Airport"
+    },
+    {
+      "code": "LEW",
+      "noCode": 1001177,
+      "name": "Lewisham"
+    },
+    {
+      "code": "LIM",
+      "noCode": 1001180,
+      "name": "Limehouse"
+    },
+    {
+      "code": "MUD",
+      "noCode": 1002061,
+      "name": "Mudchute"
+    },
+    {
+      "code": "PDK",
+      "noCode": 1002099,
+      "name": "Pontoon Dock"
+    },
+    {
+      "code": "PML",
+      "noCode": 1002066,
+      "name": "Pudding Mill Lane"
+    },
+    {
+      "code": "POP",
+      "noCode": 1002064,
+      "name": "Poplar"
+    },
+    {
+      "code": "PRR",
+      "noCode": 1002065,
+      "name": "Prince Regent"
+    },
+    {
+      "code": "ROA",
+      "noCode": 1002070,
+      "name": "Royal Albert"
+    },
+    {
+      "code": "ROV",
+      "noCode": 1002071,
+      "name": "Royal Victoria"
+    },
+    {
+      "code": "SHA",
+      "noCode": 1000202,
+      "name": "Shadwell"
+    },
+    {
+      "code": "SHS",
+      "noCode": 1003007,
+      "name": "Stratford High Street"
+    },
+    {
+      "code": "SOQ",
+      "noCode": 1002074,
+      "name": "South Quay"
+    },
+    {
+      "code": "STI",
+      "noCode": 1003009,
+      "name": "Stratford International"
+    },
+    {
+      "code": "STL",
+      "noCode": 1003005,
+      "name": "Star Lane"
+    },
+    {
+      "code": "STR",
+      "noCode": 1000226,
+      "name": "Stratford Regional"
+    },
+    {
+      "code": "TOG",
+      "noCode": 1002076,
+      "name": "Tower Gateway"
+    },
+    {
+      "code": "WEH",
+      "noCode": 1000262,
+      "name": "West Ham"
+    },
+    {
+      "code": "WES",
+      "noCode": 1002083,
+      "name": "Westferry"
+    },
+    {
+      "code": "WIQ",
+      "noCode": 1002084,
+      "name": "West India Quay"
+    },
+    {
+      "code": "WOA",
+      "noCode": 1003000,
+      "name": "Woolwich Arsenal"
+    },
+    {
+      "code": "WST",
+      "noCode": 1002098,
+      "name": "West Silvertown"
+    }
+  ];
+/*
 awsdydb.config.update({
     region: "eu-west-2",
-    endpoint: "apigateway.eu-west-2.amazonaws.com",
-    accessKeyId: 'xxxx',
-    secretAccessKey: 'xxxx'
+    endpoint: "stations",
+    accessKeyId: 'AKIAJVP7Q374TCMYPJKA',
+    // secretAccessKey: 'xxxx'
   });
-  
+*/
 
-let originalDestCode = "CUS"; // cuddy sark from stratford international
+let originalDestCode = "ABC"; // cuddy sark from stratford international
 let currentDest = originalDestCode;
 let normalRecurrence = 1; // -1 no checking at all 0 check as abnormal 1 check as normal
 let assetToFollowUp = null;
@@ -78,7 +305,9 @@ function suggestShower(result)
             messageToSend += '\n' + 'After that take ' + journey.legs[i].instruction.summary;
     }
     slimbot.sendMessage('820663765', messageToSend);
-    // normalRecurrence = 1;
+    normalRecurrence = 1;
+    const filtered = threeCode.filter(a => a['noCode'] == journey.legs[0].departurePoint);
+    currentDest = filtered;
     /*
     for (var i = 0; i < journey.legs.length; i++)
     {
@@ -136,7 +365,10 @@ function suggestLoader(legNo, stopNo)
 
 function getThreeDigitCode(icsCode)
 {
-    
+    const filtered = threeCode.filter(a => a['noCode'] == icsCode);
+    originalDestCode = filtered[0]['code'];
+    currentDest = originalDestCode
+    console.log(originalDestCode);
 }
 
 function dummyRouteGetter() //  to be replaced by actual request listening
