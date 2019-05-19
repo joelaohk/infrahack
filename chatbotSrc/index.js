@@ -249,7 +249,7 @@ let currentDest = originalDestCode;
 let normalRecurrence = 1; // -1 no checking at all 0 check as abnormal 1 check as normal
 let assetToFollowUp = null;
 let currJourney = 0;
-let zeit = 1556235986; // for demo
+let zeit = 1555661922; // for demo
 
 function routeSearcher(source, dest, preference, mode)
 {
@@ -297,12 +297,15 @@ function suggestShower(result)
     setInterval(()=>{}, 2000);
     for (var i = 0; i < journey.legs.length; i++)
     {
-        if (i == 0)
+        if (i == 0 && journey.legs.length > 1)
             messageToSend += '\n' + 'Firstly take ' + journey.legs[i].instruction.summary;
+        else if (i == 0)
+            messageToSend += '\n' + 'Take ' + journey.legs[i].instruction.summary;
         else if (i % 2 == 1)
             messageToSend += '\n' + 'Then take ' + journey.legs[i].instruction.summary;
         else
             messageToSend += '\n' + 'After that take ' + journey.legs[i].instruction.summary;
+        messageToSend += '\n' + ' from ' + journey.legs[i].departurePoint.commonName;
     }
     slimbot.sendMessage('820663765', messageToSend);
     normalRecurrence = 1;
@@ -377,7 +380,7 @@ function dummyRouteGetter() //  to be replaced by actual request listening
     const currTime = new Date();
     let data = '';
     // console.log(currTime.getTime());
-    https.get(baseURL + "/1003009/to/1002027?date=20190518&time=0900&journeyPreference=LeastWalking", (res) => 
+    https.get(baseURL + "/1003009/to/1002000?date=20190518&time=0900&journeyPreference=LeastWalking", (res) => 
     {
         res.on('data', (d) => {
             data += d;
@@ -493,7 +496,7 @@ function checkStatusConnection(retryCount)
 function faultyCheckRecur() // time shortenedfor demo purpose
 {
     setInterval(function() {
-        zeit += 1000;
+        zeit += 2;
         if (normalRecurrence == 0)
             checkStatusConnection(0);
     }, 1000);
